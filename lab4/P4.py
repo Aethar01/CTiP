@@ -7,6 +7,7 @@ import random as rd
 import pandas as pd
 import matplotlib.animation as animation
 import sys
+import os
 
 
 def main(animate: bool = True, threed: bool = False):
@@ -54,16 +55,29 @@ def main(animate: bool = True, threed: bool = False):
             if threed:
                 dataframe.loc[dataframe.index.max() + 1] = [
                     x, y, z, x_end, y_end, z_end]
-            else: 
+            else:
                 dataframe.loc[dataframe.index.max() + 1] = [x, y, x_end, y_end]
 
             if threed:
-                board.plot([x, x_end], [y, y_end], [z, z_end])
+                board.plot([x, x_end], [y, y_end], [z, z_end], color='b')
             else:
-                board.plot([x, x_end], [y, y_end])
+                board.plot([x, x_end], [y, y_end], color='b')
 
+        if threed:
+            filename = 'random_walk_3d'
+        else:
+            filename = 'random_walk'
+
+        def checkfile(filename, n=1):
+            if not os.path.exists(filename):
+                return filename
+            else:
+                checkfile(filename + f'{n}', n + 1)
+
+        filename = checkfile(f'{filename}.gif')
         ani = animation.FuncAnimation(
-            fig, update, frames=100, repeat=False, blit=True)
+            fig, update, frames=100, repeat=False, blit=False)
+
         ani.save('random_walk.gif', writer='imagemagick')
         plt.show()
 
@@ -90,9 +104,9 @@ def main(animate: bool = True, threed: bool = False):
                 dataframe.loc[dataframe.index.max() + 1] = [x, y, x_end, y_end]
 
             if threed:
-                board.plot([x, x_end], [y, y_end], [z, z_end])
+                board.plot([x, x_end], [y, y_end], [z, z_end], color='b')
             else:
-                board.plot([x, x_end], [y, y_end])
+                board.plot([x, x_end], [y, y_end], color='b')
 
         plt.show()
 
