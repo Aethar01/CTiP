@@ -52,8 +52,8 @@ fn three() -> Vec<DebitCard> {
     let mut rng = rand::rng();
     let mut cards: Vec<DebitCard> = Vec::new();
     for _ in 0..3 {
-        let card_number = (0..16).map(|_| rng.random_range(0..9).to_string()).collect::<String>();
-        let security_code = (0..3).map(|_| rng.random_range(0..9).to_string()).collect::<String>();
+        let card_number = (0..16).map(|_| rng.random_range(0..=9).to_string()).collect::<String>();
+        let security_code = (0..3).map(|_| rng.random_range(0..=9).to_string()).collect::<String>();
         cards.push(DebitCard { card_number, security_code });
     }
     cards
@@ -61,14 +61,14 @@ fn three() -> Vec<DebitCard> {
 
 #[derive(Debug)]
 struct LotteryTicket {
-    numbers: String
+    numbers: Vec<i32>
 }
 
 fn four() -> Vec<LotteryTicket> {
     let mut rng = rand::rng();
     let mut numbers: Vec<LotteryTicket> = Vec::new();
     for _ in 0..200 {
-        let number = (0..6).map(|_| rng.random_range(0..9).to_string()).collect::<String>();
+        let number = (0..6).map(|_| rng.random_range(0..=99)).collect();
         numbers.push(LotteryTicket { numbers: number });
     }
     numbers

@@ -13,7 +13,7 @@ import pandas as pd
 # sig figs will determine the rounding of decimals for needles that cross the lines, keep to multiples of 10
 # model is generally more accurate with large sample size and sig_fig but at the cost of run time
 
-sample_size = 1000
+sample_size = 100000
 sig_figs = 10000
 
 # initializing plot ====================================================================================================
@@ -55,7 +55,7 @@ for n in range(0, sample_size):
         crossed = False
 
     new_needle = [x, y, x_end, y_end, crossed]
-    print(new_needle)
+    # print(new_needle)
 
     needles.loc[n] = new_needle
 
@@ -73,15 +73,15 @@ for n in range(0, 4):
 
 # estimating pi ========================================================================================================
 
-crossed_count = len(needles[needles['crossed_line'] == True])
+# crossed_count = len(needles[needles['crossed_line'] == True])
 
-pi_est = (2*sample_size)/crossed_count
+# pi_est = (2*sample_size)/crossed_count
 
-diff = pi_est-np.pi
+# diff = pi_est-np.pi
 
-text = 'Estimated value of pi: {}, Actual Value of pi: {}, Diff ={}'.format(
-    pi_est, np.pi, diff)
-fig.text(.01, .9, text)
+# text = 'Estimated value of pi: {}, Actual Value of pi: {}, Diff ={}'.format(
+#     pi_est, np.pi, diff)
+# fig.text(.01, .9, text)
 
 # calling the plot =====================================================================================================
-plt.show()
+# plt.show()

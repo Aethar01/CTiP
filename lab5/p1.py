@@ -50,7 +50,7 @@ def generate_uniformly_distributed_circle_points(n, onSurface=False):
 
 
 def plot_points3d(points, title):
-    fig = plt.figure()
+    fig = plt.figure(figsize=(5, 5))
     ax = fig.add_subplot(111, projection='3d')
     for point in points:
         ax.scatter(point[0], point[1], point[2], c='b', marker='o')
@@ -62,10 +62,24 @@ def plot_points3d(points, title):
 
 
 def plot_points2d(points, title):
-    fig = plt.figure()
+    fig = plt.figure(figsize=(5, 5))
     ax = fig.add_subplot(111)
     for point in points:
         ax.scatter(point[0], point[1], c='b', marker='o')
+    plt.title(title)
+    plt.savefig(f"plots/P1/{title}.png")
+
+
+def plot_2set_points2d(points, title):
+    fig = plt.figure(figsize=(5, 5))
+    ax = fig.add_subplot(111)
+    # only plot z = 0 and z = 0.5
+    points1 = [point for point in points if point[2] >= -0.1 and point[2] <= 0.1]
+    points2 = [point for point in points if point[2] >= 0.4 and point[2] <= 0.6]
+
+    ax.scatter([point[0] for point in points1], [point[1] for point in points1], c='b', marker='o', label=f"z = 0")
+    ax.scatter([point[0] for point in points2], [point[1] for point in points2], c='r', marker='o', label=f"z = 0.5")
+    plt.legend()
     plt.title(title)
     plt.savefig(f"plots/P1/{title}.png")
 
@@ -82,6 +96,9 @@ def main():
     plot_points3d(points, "Random points on the surface of a sphere")
     points = generate_uniformly_distributed_circle_points(n, onSurface=True)
     plot_points2d(points, "Random points on the surface of a circle")
+    n = 10000
+    points = generate_uniformly_distributed_sphere_points(n, onSurface=True)
+    plot_2set_points2d(points, "Random points in two circles")
 
 
 if __name__ == "__main__":
