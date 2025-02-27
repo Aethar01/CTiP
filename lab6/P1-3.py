@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import scipy.integrate as spi
 import scipy.special as sps
 import numpy as np
+import sys
 
 
 def parse_args():
@@ -60,13 +61,17 @@ def plot_and_integrate(func, xrange, title, analytical_result=None):
     plot(func, x, y, title)
     print(f'analytical: {analytical_result}')
     quad_result = integrate('quad', func, x, y)[0]
-    print(f'quad: {quad_result}, residual: {abs(quad_result - analytical_result)}')
+    print(f'quad: {quad_result}, residual: {
+          abs(quad_result - analytical_result)}')
     trapezoid_result = integrate('trapezoid', func, x, y)
-    print(f'trapezoid: {trapezoid_result}, residual: {abs(trapezoid_result - analytical_result)}')
+    print(f'trapezoid: {trapezoid_result}, residual: {
+          abs(trapezoid_result - analytical_result)}')
     simpson_result = integrate('simpson', func, x, y)
-    print(f'simpson: {simpson_result}, residual: {abs(simpson_result - analytical_result)}')
+    print(f'simpson: {simpson_result}, residual: {
+          abs(simpson_result - analytical_result)}')
     gauss_result = integrate('gauss', func, x, y)[0]
-    print(f'gauss: {gauss_result}, residual: {abs(gauss_result - analytical_result)}')
+    print(f'gauss: {gauss_result}, residual: {
+          abs(gauss_result - analytical_result)}')
 
 
 def main():
@@ -77,21 +82,21 @@ def main():
             xrange = [0, 5]
             title = '$\\frac{1}{1+x^2}$'
             analytical_result = np.arctan(5)
-            plot_and_integrate(func, xrange, title, analytical_result)
         case 2:
             func = f2
             xrange = [1, 2]
             title = '$\\frac{1}{x}$'
             analytical_result = np.log(2)
-            plot_and_integrate(func, xrange, title, analytical_result)
         case 3:
             func = f3
             xrange = [0, 1]
             title = '$\\sin(x^2)$'
-            analytical_result = np.sqrt(np.pi/2) * sps.fresnel(np.sqrt(2/np.pi))[0]
-            plot_and_integrate(func, xrange, title, analytical_result)
+            analytical_result = np.sqrt(
+                np.pi/2) * sps.fresnel(np.sqrt(2/np.pi))[0]
         case _:
-            print('Invalid function number')
+            raise ValueError('Invalid function number')
+            sys.exit(1)
+    plot_and_integrate(func, xrange, title, analytical_result)
 
 
 if __name__ == '__main__':
