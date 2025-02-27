@@ -14,6 +14,8 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--function', type=int,
                         default=1, help='Function number')
+    parser.add_argument('-n', '--n', type=int,
+                        default=10000, help='Number of points')
     return parser.parse_args()
 
 
@@ -28,7 +30,7 @@ def f2(x, y):
 
 
 def f3(x, y):
-    return x ** 2 + y ** 2
+    return x ** 2 * y ** 2
 
 
 def f4(x, y, z):
@@ -54,7 +56,7 @@ def plot(func, x, y, z=None, w=None, title='', **kwargs):
                 ax.set_zlabel('z')
                 ax.set_title(title)
                 plt.savefig(f'plots/{title.strip("$\\").replace('/', '')}.png')
-                plt.show()
+                # plt.show()
                 return
         if 'ax' in kwargs:
             ax = kwargs['ax']
@@ -65,7 +67,7 @@ def plot(func, x, y, z=None, w=None, title='', **kwargs):
             ax.set_zlabel('z')
             ax.set_title(title)
             plt.savefig(f'plots/{title.strip("$\\ /").replace('/', '')}.png')
-            plt.show()
+            # plt.show()
             return
     else:
         plt.plot(x, y)
@@ -73,7 +75,7 @@ def plot(func, x, y, z=None, w=None, title='', **kwargs):
         plt.ylabel('y')
         plt.title(title)
         plt.savefig(f'plots/{title.strip("$\\ /").replace('/', '')}.png')
-        plt.show()
+        # plt.show()
 
 
 def make_points_in_range(func, **kwargs):
@@ -201,10 +203,10 @@ def four_d_montercarlo_integration(func, x, y, z, w, n, ax, **kwargs):
 
 def main():
     args = parse_args()
+    n = args.n
     match args.function:
         case 1:
             f = f1
-            n = 10000
             range_x = (2.5, 7.5)
             x, y = make_points_in_range(f, range_x=range_x)
             area = montecarlo_integration(f, x, y, n)
@@ -212,7 +214,6 @@ def main():
                  args.function}, Monte Carlo integration area={area} \n n={n}')
         case 2:
             f = f2
-            n = 10000
             range_xy = (0, 1, 0, 4)
             x, y, z = make_points_in_range(f, range_xy=range_xy)
             fig = plt.figure()
@@ -223,7 +224,6 @@ def main():
                  args.function}, Monte Carlo integration volume={volume} \n Analytical Solution=44 \n n={n}', ax=ax)
         case 3:
             f = f3
-            n = 10000
             range_xy = (0, 1, 0, 4)
             x, y, z = make_points_in_range(f, range_xy=range_xy)
             fig = plt.figure()
@@ -234,7 +234,6 @@ def main():
                  args.function}, Monte Carlo integration volume={volume} \n Analytical Solution=64/9=7.1111 \n n={n}', ax=ax)
         case 4:
             f = f4
-            n = 10000
             range_xyz = (0, 1, 0, 1, 0, 1)
             x, y, z, w = make_points_in_range(f, range_xyz=range_xyz)
             fig = plt.figure()
